@@ -926,32 +926,3 @@ body.vjs-full-window {
 /* -----------------------------------------------------------------------------
 The original source of this file lives at
 https://github.com/videojs/video.js/blob/master/src/css/video-js.less */
-/* added by myself*/
-/* === Custom Pink Theme Overrides === */
-.vjs-default-skin .vjs-control {
-  color: #DBDBDB !important;
-}
-
-.vjs-default-skin .vjs-control:hover,
-.vjs-default-skin .vjs-play-control.vjs-playing,
-.vjs-default-skin .vjs-volume-menu-button:hover {
-  color: #E0D5D5 !important;
-}
-
-/* Change progress bar color */
-.vjs-default-skin .vjs-play-progress,
-.vjs-default-skin .vjs-volume-level {
-  background-color: #E0D5D5 !important;
-}
-
-/* Slider handle (thumb) */
-.vjs-default-skin .vjs-slider-handle {
-  background-color: #DBDBDB !important;
-  border: 1px solid #DBDBDB !important;
-}
-
-.vjs-default-skin .vjs-slider:hover .vjs-slider-handle {
-  background-color: #E0D5D5 !important;
-  border-color: #E0D5D5 !important;
-}
-
