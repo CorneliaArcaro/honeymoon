@@ -36,7 +36,7 @@ The control icons are from a custom font. Each icon corresponds to a character
   cursor: pointer;
   padding: 0;
   /* background-color-with-alpha */
-  background-color: #e0d5d5;
+  background-color: #6d6d6e;
   /*background-color: rgba(51, 51, 51, 0.9);*/
 }
 .vjs-default-skin .vjs-slider:focus {
