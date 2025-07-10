@@ -1,19 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>audio_player_mexico_jingle</title>
-    <script src="https://github.com/CorneliaArcaro/honeymoon/audioplayer/audiojs/jquery-1.7.2.min.js"></script>
-        <script src="https://github.com/CorneliaArcaro/honeymoon/audioplayer/audiojs/audio.min.js"></script>
-    <script>
-        audiojs.events.ready(function() {
-        audiojs.createAll();
+<head>
+  <meta charset="utf-8" />
+  <title>Mexico Animation</title>
+  <style>
+    body {
+      margin: 0; padding: 0;
+    }
+    #map {
+      width: 100%; height: 100vh; display: block;
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <img id="map" alt="Mexico animation" />
+
+  <audio id="mexico_jingle" preload="auto" src="https://raw.githubusercontent.com/CorneliaArcaro/honeymoon/audioplayer/data/jingle_mexico2.mp3"></audio>
+
+  <script>
+    const img = document.getElementById('map');
+    const baseSrc = 'https://raw.githubusercontent.com/CorneliaArcaro/honeymoon/animations/Mexico_animation.gif';
+
+    // Force reload animation every time page loads
+    img.src = baseSrc + '?t=' + new Date().getTime();
+
+    const audio = document.getElementById('mexico_jingle');
+
+    // Try to autoplay on page load (desktop browsers)
+    audio.play().catch(() => {
+      // Autoplay blocked on mobile — play audio on first user interaction anywhere on page
+      function playAudioOnUserInteraction() {
+        audio.play().catch(() => {
+          // Still blocked or error, nothing else we can do here
         });
-    </script>
-  </head>
-  <body>
- <div hidden>
-      <audio id="mexico_jingle" src="https://github.com/CorneliaArcaro/honeymoon/audioplayer/data/jingle_mexico2.mp3"></audio>
-     </div>  
-  </body>
+        window.removeEventListener('touchstart', playAudioOnUserInteraction);
+        window.removeEventListener('click', playAudioOnUserInteraction);
+      }
+      window.addEventListener('touchstart', playAudioOnUserInteraction, { once: true });
+      window.addEventListener('click', playAudioOnUserInteraction, { once: true });
+    });
+  </script>
+
+</body>
 </html>
+
