@@ -1,40 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>audioplayer_canzoni</title>
-<script src="https://github.com/CorneliaArcaro/honeymoon/audioplayer/audiojs/jquery-1.7.2.min.js"></script>
-<script src="https://github.com/CorneliaArcaro/honeymoon/audioplayer/audiojs/audio.min.js"></script>
-<script>
-      $(function() {
-        // Setup the player to autoplay the next track
-        var a = audiojs.createAll({
-          trackEnded: function() {
-            var next = $('ol li.playing').next();
-            if (!next.length) next = $('ol li').first();
-            next.addClass('playing').siblings().removeClass('playing');
-            audio.load($('a', next).attr('data-src'));
-            audio.play();
-          }
-        });
-// Load in the first track
-        var audio = a[0];
-            first = $('ol a').attr('data-src');
-        $('ol li').first().addClass('playing');
-        audio.load(first);
-      });
-    </script>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Playlist Audio Toggle Button</title>
+  <style>
+    #audio-toggle {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      border-radius: 6px;
+      background-color: #E0D5D5;
+      background-image: url('https://raw.githubusercontent.com/CorneliaArcaro/honeymoon/audioplayer/audiojs/player-graphics.gif');
+      background-repeat: no-repeat;
+      background-position: 0 0;
+      background-size: 30px 60px; /* size of the sprite */
+      box-sizing: border-box;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
 
-    <div>
-      <audio id="ap_canzoni"></audio>
-<div hidden>
-      <ol>
-        <li><a href="#"data-src="https://raw.githubusercontent.com/CorneliaArcaro/honeymoon/audioplayer/data/ceremonia1.mp3"></a></li>
-        <li><a href="#"data-src="https://raw.githubusercontent.com/CorneliaArcaro/honeymoon/audioplayer/data/ceremonia2.mp3"></a></li>
-      </ol>
-    </div>
-  </div>
-  </body>
+<div id="audio-toggle" title="Play/Pause"></div>
+
+<audio id="ap_ceremonia" preload="auto"></audio>
+
+<script>
+  const audio = document.getElementById('ap_ceremonia');
+  const toggle = document.getElementById('audio-toggle');
+
+  const playlist = [
+    "https://raw.githubusercontent.com/CorneliaArcaro/honeymoon/audioplayer/data/ceremonia1.mp3",
+    "https://raw.githubusercontent.com/CorneliaArcaro/honeymoon/audioplayer/data/ceremonia2.mp3"
+  ];
+
+  let currentIndex = 0;
+  let userInteracted = false;
+
+  function updateToggle() {
+    toggle.style.backgroundPosition = audio.paused ? '0 -30px' : '0 0';
+  }
+
+  function loadAndPlay(index) {
+    if (index >= playlist.length) index = 0;
+    currentIndex = index;
+    audio.src = playlist[index];
+    audio.play().catch(() => {
+      // Autoplay may be blocked until user interaction
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    loadAndPlay(currentIndex);
+    updateToggle();
+  });
+
+  function onFirstInteractionAndToggle() {
+    if (!userInteracted) {
+      userInteracted = true;
+    }
+
+    if (audio.paused) {
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+    }
+  }
+
+  toggle.addEventListener('click', onFirstInteractionAndToggle);
+
+  audio.addEventListener('play', updateToggle);
+  audio.addEventListener('pause', updateToggle);
+
+  audio.addEventListener('ended', () => {
+    loadAndPlay(currentIndex + 1);
+  });
+</script>
+
+</body>
 </html>
